@@ -1,17 +1,35 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Promised :promise="promise">
+      <!--
+        Use the "pending" slot for loading content
+      -->
+      <h1 slot="pending">Loading</h1>
+      <!-- The default scoped slots will be used as the result -->
+      <h1 slot-scope="data">Success! {{ data }}</h1>
+      <!-- The "rejected" scoped slot will be used if there is an error -->
+      <h1 slot="rejected" slot-scope="error">Error: {{ error.message }}</h1>
+    </Promised>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { Promised } from 'vue-promised';
 
 export default {
-  name: 'app',
+  name: 'app',  
+  data() {
+    return {
+      promise: this.delay(),      
+    }
+  },
   components: {
-    HelloWorld
+    Promised
+  },
+  methods: {
+    delay() {
+      return new Promise(resolve => setTimeout(() => resolve('boo'), 2000));
+    }
   }
 }
 </script>
