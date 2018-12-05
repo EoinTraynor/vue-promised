@@ -1,16 +1,19 @@
 <template>
   <div id="app">
     <basic-promised />
+    <combined-promised />
   </div>
 </template>
 
 <script>
 import BasicPromised from './components/BasicPromised';
+import CombinedPromised from './components/CombinedPromised';
 
 export default {
   name: 'app',  
   components: {
     BasicPromised,
+    CombinedPromised,
   }
 }
 </script>
