@@ -1,10 +1,10 @@
 <template>
-    <Promised :promise="promise">
-      <pre slot="combined" slot-scope="{ isPending, isDelayOver, data, error}">
-        pending: {{ isPending }}
+    <Promised :promise="delayedPromise">
+      <pre slot="combined" slot-scope="{ isPending, isDelayOver, data, error}">        
+        <div v-if="isPending">Loading</div>
+        <div v-if="data">{{ data }}</div>        
+        <div v-if="error">{{ error.message }}</div>
         is delay over: {{ isDelayOver }}
-        data: {{ data }}
-        error: {{ error && error.message }}
       </pre>      
     </Promised>
 </template>
@@ -18,12 +18,22 @@ export default {
   },
   data() {
     return {
-      promise: this.delay(),      
+      promise: this.response(),      
+      delayedPromise: this.delayedResponse(),      
     }
   },
   methods: {
-    delay() {
-      return new Promise(resolve => setTimeout(() => resolve('Resolved!'), 2000));
+    response() {
+      return new Promise( async (resolve) => {                
+        const todo = await fetch('https://jsonplaceholder.typicode.com/todos/1');
+        resolve(todo.json());        
+      });
+    },
+    delayedResponse() {
+      return new Promise( async (resolve) => {                
+        const todo = await fetch('https://jsonplaceholder.typicode.com/todos/1');
+        setTimeout(() => resolve(todo.json()), 5000);
+      });
     }
   }
 }
