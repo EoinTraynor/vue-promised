@@ -1,7 +1,7 @@
 <template>
-    <Promised :promise="delayedPromise">
+    <Promised :promise="promise">
       <pre slot="combined" slot-scope="{ isPending, isDelayOver, data, error}">        
-        <div v-if="isPending">Loading</div>
+        <spinner v-if="isPending" />
         <div v-if="data">{{ data }}</div>        
         <div v-if="error">{{ error.message }}</div>
         is delay over: {{ isDelayOver }}
@@ -11,10 +11,12 @@
 
 <script>
 import { Promised } from 'vue-promised';
+import Spinner from './promiseComponents/Spinner'
 
 export default {
   components: {
-    Promised
+    Promised,
+    Spinner,
   },
   data() {
     return {
